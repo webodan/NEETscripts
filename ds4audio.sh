@@ -2,6 +2,7 @@
 #
 # Automatic audio output switching script.
 # Made in 2017 by webodan. Released under the terms of the GNU GPL V2. See the LICENSE file for details.
+# By default it switches back and forth between my HDMI TV audio output and the DS4's audio output.
 # Replace the quoted pulseaudio sink device ID with whatever devices you would prefer using.
 # (get your sink devices IDs with the pacmd list-sinks command).
 
