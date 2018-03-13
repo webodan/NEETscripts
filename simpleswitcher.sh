@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function RunHDMIScreen {
+# change DPI to acommodate HDMI TV
 gsettings set org.gnome.desktop.interface cursor-size 36 &
 gsettings set org.gnome.desktop.interface scaling-factor 1 &
 gsettings set org.gnome.desktop.interface text-scaling-factor 1.55 &
@@ -11,17 +12,10 @@ pacmd list-sink-inputs | grep index | while read line
 do
 pacmd move-sink-input `echo $line | cut -f2 -d' '` "alsa_output.pci-0000_01_00.1.hdmi-stereo" &
 done
-#pulseaudio -k &
-#SERVICE="chromium"
-#RESULT=`pgrep ${SERVICE}`
-#if [ "${RESULT:-null}" = null ]; then
-#chromium-browser --restore-last-session &
-#else
-#wmctrl -c chromium && chromium-browser --restore-last-session &
-#fi
 }
 
 function RunMonitors {
+# restore DPI to default values for multimonitor desktop setup
 gsettings set org.gnome.desktop.interface text-scaling-factor 1 &
 gsettings set org.gnome.desktop.interface scaling-factor 1 & 
 gsettings set org.gnome.desktop.interface cursor-size 24 & 
@@ -31,28 +25,16 @@ pacmd list-sink-inputs | grep index | while read line
 do
 pacmd move-sink-input `echo $line | cut -f2 -d' '` "alsa_output.pci-0000_03_07.0.analog-stereo" &
 done
-#sleep .5
-#pacmd set-default-sink "alsa_output.pci-0000_03_07.0.analog-stereo" &
-#killall pulseaudio &
-#pulseaudio -k &
-#pacmd set-default-sink "alsa_output.pci-0000_03_07.0.analog-stereo" &
-#SERVICE="chromium"
-#RESULT=`pgrep ${SERVICE}`
-#if [ "${RESULT:-null}" = null ]; then
-#chromium-browser --restore-last-session &
-#else
-#wmctrl -c chromium && chromium-browser --restore-last-session &
-#fi
 }
 
 function HDMIConnected {
-   xrandr | grep "HDMI-0" | grep "primary" # 1) this function finds a 1920x1080 with HDMI-0 as its device identifier, aka my HDMI TV (this only activates when it is plugged in and outputting video at runtime)
+   xrandr | grep "HDMI-0" | grep "primary" # checks whether HDMI TV is running as primary (PC in HDTV Mode)
 }
 
-if HDMIConnected # 2) if the HDMI TV is connected and running, the script assumes that you want to change to the VGA and DVI monitors also installed on the system, so....
+if HDMIConnected # if such is the case...
 then
-RunMonitors # 3) that's exactly what it does in this part, then exits.
+RunMonitors # the script switches video and audio output and changes DPI settings to acommodate desktop monitor use
 else
-RunHDMIScreen
+RunHDMIScreen # if the script was ran having the desktop monitors running, it changes back to HDTV
 fi
 exit
