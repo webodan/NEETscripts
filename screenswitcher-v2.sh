@@ -2,7 +2,7 @@
 #part of my new pygtk based display switcher
 # switches to 1 of 3 connected displays
 # used in conjunction with bash program switchmon.sh
-#based on cb-exit
+# based on cb-exit
 # webodan 2019
 
 import pygtk
