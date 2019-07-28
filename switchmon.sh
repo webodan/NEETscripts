@@ -1,6 +1,6 @@
 #/bin/bash
 # monitor switch script with variables
-# wrapped up with pygtk program
+# wrapped up and used in conjunction with pygtk program screenswitcher-v2
 # thanks jon almeida blog post
 
 while [ ! $# -eq 0 ]
