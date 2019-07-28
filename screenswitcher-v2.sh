@@ -1,9 +1,4 @@
 #!/usr/bin/env python2
-#part of my new pygtk based display switcher
-# switches to 1 of 3 connected displays
-# used in conjunction with bash program switchmon.sh
-# based on cb-exit
-# webodan 2019
 
 import pygtk
 pygtk.require('2.0')
@@ -57,8 +52,8 @@ class cb_exit:
 		self.window = gtk.Window()
 		title = "Choose a display to run:"
 		self.window.set_title(title)
-		self.window.set_border_width(6)
-		self.window.set_size_request(700, 80)
+		self.window.set_border_width(4)
+		self.window.set_size_request(540, 80)
 		self.window.set_resizable(False)
 		self.window.set_keep_above(True)
 		self.window.stick
