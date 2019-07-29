@@ -24,7 +24,6 @@ do
 		xfconf-query -c xsettings -p /Xft/DPI -s 190
 		pactl -- set-sink-volume $hdmicard 100%
 		pacmd set-default-sink $hdmicard
-#		pulseaudio -k
 		exit
 			;;
 		--hdmon)
@@ -37,14 +36,12 @@ do
 		xfconf-query --channel xsettings --property /Gtk/CursorThemeSize --set 24
 		xfconf-query -c xsettings -p /Xft/DPI -s 100
 		pactl -- set-sink-volume $analogcard 100%
-#		pulseaudio -k
 		exit
 			;;
 		--crtmon)
 		# CRT Monitor only
 		pacmd set-default-sink $analogcard
 		pactl -- set-sink-volume $analogcard 100%
-#		pulseaudio -k
 		killall steam
 		xrandr --output $vgamonitor --mode 640x480 --rate 60 --output $hdmitv --off --output $dvimonitor --off
 		xfconf-query -c xfce4-panel -p /panels/panel-1/size -s 39
