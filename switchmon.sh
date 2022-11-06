@@ -2,8 +2,10 @@
 # monitor switch script with variables
 # new version includes checking for connected bluetooth headphones and skips audio switching if connected
 
-hdmicard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep hdmi-stereo-extra)
+hdmicard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep hdmi)
 analogcard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep analog)
+bluetoothcard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep blue)
+
 dvimonitor=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/" | grep DP)
 hdmitv=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/" | grep HDMI)
 
@@ -15,7 +17,7 @@ function HDMITV {
         then
                 pactl set-card-profile 2 off
                 pactl set-card-profile 0 output:hdmi-stereo-extra1
-                pactl set-default-sink bluez_sink.F8_4E_17_96_DC_11.a2dp_sink
+                pactl set-default-sink $bluetoothcard
         exit
         else	
 		pactl set-card-profile 2 off
@@ -31,7 +33,7 @@ function DPMonitor {
         then
                 pactl set-card-profile 0 off
                 pactl set-card-profile 2 output:analog-stereo
-                pactl set-default-sink bluez_sink.F8_4E_17_96_DC_11.a2dp_sink
+                pactl set-default-sink $bluetoothcard
         exit
         else
 		pactl set-card-profile 0 off
