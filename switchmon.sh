@@ -1,6 +1,6 @@
 #!/bin/bash
 # monitor switch script with variables
-# wrapped up with pygtk program
+# new version includes checking for connected bluetooth headphones and skips audio switching if connected
 # thanks jon almeida blog post
 
 hdmicard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep hdmi-stereo-extra)
