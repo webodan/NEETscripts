@@ -1,0 +1,5 @@
+#!/bin/bash
+bus=$(lsusb | grep 0bda:8771 | cut -b5-7)
+dev=$(lsusb | grep 0bda:8771 | cut -b16-18)
+/sbin/usbreset /dev/bus/usb/$bus/$dev;
+
