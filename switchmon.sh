@@ -1,5 +1,5 @@
 #!/bin/bash
-# monitor switch script with variables
+# monitor and audio output switch script using variables
 # new version includes checking for connected bluetooth headphones and skips audio switching if connected
 
 hdmicard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep hdmi)
@@ -25,7 +25,7 @@ function HDMITV {
                 pacmd set-default-sink $hdmicard
 		pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo
 		pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1
-fi
+	fi
 }
 function DPMonitor {
                 xrandr --output $dvimonitor --mode 1920x1080 -r 74.92 --output $hdmitv --off &
@@ -40,7 +40,7 @@ function DPMonitor {
 		pactl set-card-profile 2 output:analog-stereo
                 pacmd set-default-sink $analogcard
                 pactl -- set-sink-volume $analogcard 100%
-fi
+	fi
 }
 
 function HDMIConnected {
@@ -53,8 +53,8 @@ function DPConnected {
 
 
 if ! HDMIConnected
-then
-HDMITV
-else
-DPMonitor
+	then
+	HDMITV
+	else
+	DPMonitor
 fi
