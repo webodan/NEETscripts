@@ -1,5 +1,7 @@
 #!/bin/bash
+#need to reset 2 times so kernels 5.15 onwards have bluetooth working after resuming from sleep on my machine
 bus=$(lsusb | grep 0bda:8771 | cut -b5-7)
 dev=$(lsusb | grep 0bda:8771 | cut -b16-18)
 /sbin/usbreset /dev/bus/usb/$bus/$dev;
-
+sleep 2s;
+/sbin/usbreset /dev/bus/usb/$bus/$dev;
