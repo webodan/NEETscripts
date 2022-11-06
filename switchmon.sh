@@ -5,6 +5,7 @@
 
 hdmicard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep hdmi-stereo-extra)
 analogcard=$(pacmd list-sinks | awk '/name:/ {print $0};' | awk '{ print $2}' | sed 's/<//g; s/>//g' | grep analog)
+bluetoothON=$(pactl list short cards | grep blue)
 
 dvimonitor=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/" | grep DP)
 hdmitv=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/" | grep HDMI)
@@ -12,7 +13,14 @@ hdmitv=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1
 
 function HDMITV {
                 xrandr --output $dvimonitor --off --output $hdmitv --mode 1920x1080 -r 60.00 &
-		sleep 1s;
+		sleep 1s;       
+	if $bluetoothON;
+        then
+                pactl set-card-profile 2 off
+                pactl set-card-profile 0 output:hdmi-stereo-extra1
+                pactl set-default-sink bluez_sink.F8_4E_17_96_DC_11.a2dp_sink
+        exit
+        else	
 		pactl set-card-profile 2 off
 		pactl set-card-profile 0 output:hdmi-stereo-extra1
                 pacmd set-default-sink $hdmicard
@@ -24,9 +32,17 @@ function HDMITV {
 #               xfconf-query -c xsettings -p /Xft/DPI -s 190
 #               pactl -- set-sink-volume $hdmicard 100%
 #                pacmd set-default-sink $hdmicard
+fi
 }
 function DPMonitor {
                 xrandr --output $dvimonitor --mode 1920x1080 -r 74.92 --output $hdmitv --off &
+	if $bluetoothON;
+        then
+                pactl set-card-profile 0 off
+                pactl set-card-profile 2 output:analog-stereo
+                pactl set-default-sink bluez_sink.F8_4E_17_96_DC_11.a2dp_sink
+        exit
+        else
 		pactl set-card-profile 0 off
 		pactl set-card-profile 2 output:analog-stereo
                 pacmd set-default-sink $analogcard
@@ -35,6 +51,7 @@ function DPMonitor {
 #               xfconf-query --channel xsettings --property /Gtk/CursorThemeSize --set 24
 #               xfconf-query -c xsettings -p /Xft/DPI -s 100
                 pactl -- set-sink-volume $analogcard 100%
+fi
 }
 
 function HDMIConnected {
