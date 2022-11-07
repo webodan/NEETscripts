@@ -4,5 +4,8 @@ With them properly set up (Personally I have screenswitcher.sh in the Insert key
 
 I thought of just releasing them in case they could be useful to somebody else, and also to have a backup on the cloud.
 
+
 UPDATE november 2022: i don't even use any of this cr*p anymore lol
 except for my now updated switchmon.sh that's a lot better for switching my displays around, it's op
+
+# check out alternative branch for bleeding edge versions
