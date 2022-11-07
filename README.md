@@ -7,5 +7,8 @@ I thought of just releasing them in case they could be useful to somebody else, 
 
 UPDATE november 2022: i don't even use any of this cr*p anymore lol
 except for my now updated switchmon.sh that's a lot better for switching my displays around, it's op
+most optimized version of switchmon is on the alternative branch
 
 # check out alternative branch for bleeding edge versions
+
+
