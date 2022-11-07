@@ -12,14 +12,13 @@ hdmitv=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1
 
 function HDMITV {
                 xrandr --output $dvimonitor --off --output $hdmitv --mode 1920x1080 -r 60.00 &
-		sleep 1s;       
 	if pactl list short cards | grep blue;
         then
                 pactl set-card-profile 2 off
                 pactl set-card-profile 0 output:hdmi-stereo-extra1
                 pactl set-default-sink $bluetoothcard
         exit
-        else	
+        else
 		pactl set-card-profile 2 off
 		pactl set-card-profile 0 output:hdmi-stereo-extra1
                 pacmd set-default-sink $hdmicard
@@ -27,7 +26,7 @@ function HDMITV {
 	fi
 }
 function DPMonitor {
-                xrandr --output $dvimonitor --mode 1920x1080 -r 74.92 --output $hdmitv --off &
+                xrandr --output $hdmitv --off --output $dvimonitor --mode 1920x1080 -r 74.92 &
 	if pactl list short cards | grep blue;
         then
                 pactl set-card-profile 0 off
@@ -45,11 +44,6 @@ function DPMonitor {
 function HDMIConnected {
    xrandr | grep HDMI | grep 1920
 }
-
-function DPConnected {
-   xrandr | grep DP | grep 1920
-}
-
 
 if ! HDMIConnected
 	then
