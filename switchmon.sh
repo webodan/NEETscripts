@@ -23,7 +23,6 @@ function HDMITV {
 		pactl set-card-profile 2 off
 		pactl set-card-profile 0 output:hdmi-stereo-extra1
                 pacmd set-default-sink $hdmicard
-		pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo
 		pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1
 	fi
 }
