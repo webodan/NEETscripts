@@ -8,19 +8,26 @@ autorandr | grep current | grep TV
 
 function hdmi { 
 autorandr --load TV
+if ! pactl list | grep "Card #" | grep 45
+then
 pactl set-card-profile 47 off
 pactl set-card-profile 46 output:hdmi-stereo
-sleep 2s;
-#wpctl set-default $(wpctl status | grep "(HDMI)" | cut -b10-12)
-#killall conky; conky -c "/home/dan/.conky/duchys/conky.conf"
+else
+pactl set-card-profile 46 off
+pactl set-card-profile 45 output:hdmi-stereo
+fi
 }
 
 function monitor {
 autorandr --load monitor;
+if ! pactl list | grep "Card #" | grep 45
+then
 pactl set-card-profile 46 off	
 pactl set-card-profile 47 output:analog-stereo
-#wpctl set-default $(wpctl status | grep "Estéreo analógico" | cut -z -c 11-12)
-#killall conky; conky -c "/home/dan/.conky/duchys/conky-monitor.conf"
+else
+pactl set-card-profile 45 off
+pactl set-card-profile 46 output:hdmi-stereo
+fi
 }
 
 if checkTV;
